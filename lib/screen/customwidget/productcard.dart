@@ -21,18 +21,18 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Text(
                       products.hotelName.toString(),
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w400),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
                       products.name.toString(),
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w400),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -52,32 +52,36 @@ class ProductCard extends StatelessWidget {
                               color: secondary,
                               decoration: TextDecoration.lineThrough),
                         ),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    side: BorderSide(width: 1, color: primary),
-                                    borderRadius: BorderRadius.circular(5)),
-                                backgroundColor: Colors.white,
-                                minimumSize: const Size(40, 40)),
-                            onPressed: () {},
-                            child: Text(
-                              "ADD",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: primary),
-                            ))
                       ],
                     ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(width: 1, color: primary),
+                                borderRadius: BorderRadius.circular(5)),
+                            backgroundColor: Colors.white,
+                            minimumSize: const Size(100, 40)),
+                        onPressed: () {},
+                        child: Text(
+                          "ADD",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: primary),
+                        )),
                   ],
                 ),
                 const Spacer(),
-                Image.network(
-                  "https://www.cbc.ca/natureofthings/content/legacy/foodforthought_1920.jpg",
-                  height: 120,
-                  width: 120,
+                Column(
+                  children: [
+                    Image.network(
+                      "https://www.cbc.ca/natureofthings/content/legacy/foodforthought_1920.jpg",
+                      height: 80,
+                      width: 120,
+                    ),
+                  ],
                 )
               ],
             ),
