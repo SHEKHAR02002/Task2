@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notion_task/api/getapi.dart';
 import 'package:notion_task/model/getmodel.dart';
+import 'package:notion_task/screen/cartlist_screen.dart';
 import 'package:notion_task/screen/customwidget/productcard.dart';
 import 'package:notion_task/theme.dart';
 
@@ -13,8 +14,11 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+  //require datatype
   GetProduct? productsdata;
   bool loader = true;
+
+  //call the api function
   void callAPI() async {
     productsdata = await GetAPI().getproducts();
     setState(() {
@@ -22,6 +26,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     });
   }
 
+  // initially call the get api
   @override
   void initState() {
     callAPI();
@@ -42,7 +47,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
           ),
           actions: [
             InkWell(
-              onTap: () {},
+              //navigate to add to cart list
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const CartScreen())),
               child: Padding(
                 padding: const EdgeInsets.only(right: 20, left: 12),
                 child: Icon(
@@ -62,6 +69,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               itemCount: productsdata!.data!.length,
               itemBuilder: (context, index) {
                 var products = productsdata!.data![index];
+                // Call Product Cart Custom Widget
                 return ProductCard(
                   products: products,
                 );

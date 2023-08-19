@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+//Common Use Colors
 Color primary = Colors.black;
 Color secondary = Colors.grey.shade400;
 
+//Common Used boxdecorations
 BoxDecoration shadowdecoration = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.circular(10),
