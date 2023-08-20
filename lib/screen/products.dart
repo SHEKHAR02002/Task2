@@ -23,7 +23,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   //call the api function
   void callAPI() async {
     productsdata = await GetAPI().getproducts();
-
+    cartdata = await GetAPI().getcartproducts();
     setState(() {
       loader = false;
     });
