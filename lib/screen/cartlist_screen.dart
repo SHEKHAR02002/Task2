@@ -45,6 +45,14 @@ class _CartScreenState extends State<CartScreen> {
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w600, color: primary),
           ),
+          leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              CupertinoIcons.back,
+              size: 25,
+              color: primary,
+            ),
+          ),
           actions: [
             InkWell(
               //navigate to add to cart list

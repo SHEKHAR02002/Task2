@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notion_task/api/postapi.dart';
 import 'package:notion_task/model/getmodel.dart';
 import 'package:notion_task/theme.dart';
 
@@ -64,14 +65,26 @@ class ProductCard extends StatelessWidget {
                                 side: BorderSide(width: 1, color: primary),
                                 borderRadius: BorderRadius.circular(5)),
                             backgroundColor: Colors.white,
-                            minimumSize: const Size(100, 40)),
-                        onPressed: () {},
-                        child: Text(
-                          "ADD",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: primary),
+                            minimumSize: const Size(50, 20)),
+                        onPressed: () {
+                          AddProduct().addtocart(
+                              menuid: products.id,
+                              userid: 3,
+                              quantity: 1,
+                              patenerid: products.partnerId,
+                              size: products.sizeType,
+                              amount: products.originalPrice);
+                          print("product added");
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "ADD",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: primary),
+                          ),
                         )),
                   ],
                 ),
