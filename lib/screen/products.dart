@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notion_task/api/getapi.dart';
+import 'package:notion_task/model/getcartmodel.dart';
 import 'package:notion_task/model/getmodel.dart';
 import 'package:notion_task/screen/cartlist_screen.dart';
-import 'package:notion_task/screen/customwidget/productcard.dart';
+import 'package:notion_task/screen/customwidget/listproduct.dart';
 import 'package:notion_task/theme.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -16,11 +17,13 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   //require datatype
   GetProduct? productsdata;
+  Cart? cartdata;
   bool loader = true;
 
   //call the api function
   void callAPI() async {
     productsdata = await GetAPI().getproducts();
+    cartdata = await GetAPI().getcartproducts();
     setState(() {
       loader = false;
     });
@@ -35,45 +38,125 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            "PRODUCTS",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w600, color: primary),
-          ),
-          actions: [
-            InkWell(
-              //navigate to add to cart list
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const CartScreen())),
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20, left: 12),
-                child: Icon(
-                  CupertinoIcons.cart,
-                  color: primary,
-                  size: 24,
-                ),
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            title: RichText(
+              text: TextSpan(
+                text: 'Notion ',
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'shopping',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey.shade400)),
+                ],
               ),
             ),
-          ]),
-      body: loader
-          ? const CircularProgressIndicator()
-          : ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: productsdata!.data!.length,
-              itemBuilder: (context, index) {
-                var products = productsdata!.data![index];
-                // Call Product Cart Custom Widget
-                return ProductCard(
-                  products: products,
-                );
-              }),
-    );
+            actions: [
+              InkWell(
+                //navigate to add to cart list
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CartScreen())),
+                child: Stack(children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 20, left: 12, top: 10),
+                    child: Icon(
+                      CupertinoIcons.cart,
+                      color: primary,
+                      size: 24,
+                    ),
+                  ),
+                  Positioned(
+                      right: 5,
+                      child: loader
+                          ? Text("0")
+                          : CircleAvatar(
+                              radius: 10,
+                              backgroundColor: Colors.green,
+                              child: Text(
+                                cartdata!.data!.length.toString(),
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.white),
+                              ),
+                            ))
+                ]),
+              ),
+            ]),
+        body: loader
+            ? const CircularProgressIndicator()
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Enjoy Your ',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: primary),
+                          children: const <TextSpan>[
+                            TextSpan(
+                                text: 'Special',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: Text("Delicious Food",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade400)),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      decoration: shadowdecoration,
+                      child: Image.asset(
+                        "assets/1.jpg",
+                        fit: BoxFit.fill,
+                        height: 200,
+                        width: width,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Center(
+                        child: Text("*****  Products  *****",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green))),
+                    ListProduct(
+                      productsdata: productsdata!,
+                    )
+                  ],
+                ),
+              ));
   }
 }

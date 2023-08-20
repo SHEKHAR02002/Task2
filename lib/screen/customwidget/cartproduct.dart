@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:notion_task/api/postapi.dart';
 import 'package:notion_task/model/getcartmodel.dart';
 
-
 class CartCard extends StatefulWidget {
   final CartData data;
   const CartCard({super.key, required this.data});
@@ -15,7 +14,6 @@ class CartCard extends StatefulWidget {
 class _CartCardState extends State<CartCard> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         Column(
@@ -25,10 +23,10 @@ class _CartCardState extends State<CartCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Image.asset("assets/addcart.png"),
-                Container(
-                  color: Colors.green,
+                Image.network(
+                  "https://www.cbc.ca/natureofthings/content/legacy/foodforthought_1920.jpg",
                   height: 80,
-                  width: 80,
+                  width: 120,
                 ),
                 const SizedBox(
                   width: 20,
@@ -82,8 +80,11 @@ class _CartCardState extends State<CartCard> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: () => AddProduct()
-                      .quntityupdate(cartid: widget.data.id, status: "Remove"),
+                  onTap: () {
+                    AddProduct()
+                        .quntityupdate(cartid: widget.data.id, status: "Remove")
+                        .whenComplete(() => Navigator.pop(context));
+                  },
                   child: Container(
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -111,8 +112,11 @@ class _CartCardState extends State<CartCard> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => AddProduct()
-                      .quntityupdate(cartid: widget.data.id, status: "Add"),
+                  onTap: () {
+                    AddProduct()
+                        .quntityupdate(cartid: widget.data.id, status: "Add")
+                        .whenComplete(() => Navigator.pop(context));
+                  },
                   child: Container(
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
